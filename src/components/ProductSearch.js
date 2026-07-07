@@ -11,7 +11,7 @@ function ProductSearch() {
       size="small"
       InputProps={{
         startAdornment: (
-          <InputAdornment position="start">
+          <InputAdornment position="start" >
             <SearchIcon />
           </InputAdornment>
         ),

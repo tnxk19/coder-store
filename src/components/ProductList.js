@@ -1,11 +1,23 @@
 import { Grid } from "@mui/material";
 import ProductCard from "./ProductCard";
 
-function ProductList({ products, loading }) {
+function ProductList({ products }) {
   return (
-    <Grid container spacing={2} mt={1}>
-      {products.map((product, index) => (
-        <Grid key={product.id} item xs={6} md={4} lg={3}>
+    <Grid container spacing={3}>
+      {products.map((product) => (
+        <Grid
+          item
+          key={product.id}
+          xs={12}
+          sm={6}
+          md={4}
+          lg={3}
+          sx={{
+            display: "flex",
+            alignItems: "stretch",
+            height: "100%",
+          }}
+        >
           <ProductCard product={product} />
         </Grid>
       ))}

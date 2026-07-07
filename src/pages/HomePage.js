@@ -1,3 +1,6 @@
+// ---
+// to: src/pages/HomePage.js
+// ---
 import React, { useState, useEffect } from "react";
 import { Alert, Box, Container, Stack } from "@mui/material";
 import ProductFilter from "../components/ProductFilter";
@@ -29,10 +32,6 @@ function HomePage() {
   const filters = watch();
   const filterProducts = applyFilter(products, filters);
 
-  const handleResetFilter = () => {
-    reset(defaultValues);
-  };
-
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
@@ -50,12 +49,14 @@ function HomePage() {
   }, []);
 
   return (
-    <FormProvider methods={methods}>
-      <Container sx={{ display: "flex", minHeight: "100vh", mt: 3 }}>
-        <Stack>
-          <ProductFilter resetFilter={handleResetFilter} />
-        </Stack>
-        <Stack sx={{ flexGrow: 1 }}>
+    <Container sx={{ display: "flex", minHeight: "100vh", mt: 3 }}>
+      <Stack>
+        <FormProvider methods={methods}>
+          <ProductFilter resetFilter={reset} />
+        </FormProvider>
+      </Stack>
+      <Stack sx={{ flexGrow: 1 }}>
+        <FormProvider methods={methods}>
           <Stack
             spacing={2}
             direction={{ xs: "column", sm: "row" }}
@@ -66,6 +67,7 @@ function HomePage() {
             <ProductSearch />
             <ProductSort />
           </Stack>
+        </FormProvider>
         <Box sx={{ position: "relative", height: 1 }}>
           {loading ? (
             <LoadingScreen />
@@ -81,7 +83,6 @@ function HomePage() {
         </Box>
       </Stack>
     </Container>
-    </FormProvider>
   );
 }
 
@@ -104,18 +105,18 @@ function applyFilter(products, filters) {
   }
 
   // FILTER PRODUCTS
-  if (filters.gender && filters.gender.length > 0) {
-    filteredProducts = filteredProducts.filter((product) =>
+  if (filters.gender.length > 0) {
+    filteredProducts = products.filter((product) =>
       filters.gender.includes(product.gender)
     );
   }
-  if (filters.category && filters.category !== "All") {
-    filteredProducts = filteredProducts.filter(
+  if (filters.category !== "All") {
+    filteredProducts = products.filter(
       (product) => product.category === filters.category
     );
   }
   if (filters.priceRange) {
-    filteredProducts = filteredProducts.filter((product) => {
+    filteredProducts = products.filter((product) => {
       if (filters.priceRange === "below") {
         return product.price < 25;
       }
@@ -126,7 +127,7 @@ function applyFilter(products, filters) {
     });
   }
   if (filters.searchQuery) {
-    filteredProducts = filteredProducts.filter((product) =>
+    filteredProducts = products.filter((product) =>
       product.name.toLowerCase().includes(filters.searchQuery.toLowerCase())
     );
   }

@@ -1,5 +1,13 @@
-import { Button, Stack, Typography } from "@mui/material";
 import React from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FormProvider, FTextField } from "../components/form";
 import useAuth from "../hooks/useAuth";
@@ -10,43 +18,92 @@ import * as Yup from "yup";
 const LoginSchema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
 });
+
 const defaultValues = {
   username: "",
 };
 
 function LoginPage() {
-  let navigate = useNavigate();
-  let location = useLocation();
-  let auth = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
 
   const methods = useForm({
     resolver: yupResolver(LoginSchema),
     defaultValues,
   });
+
   const { handleSubmit } = methods;
 
-  const onSubmit = async (data) => {
-    let from = location.state?.from?.pathname || "/";
-    let username = data.username;
+  const onSubmit = (data) => {
+    const from = location.state?.from?.pathname || "/";
 
-    auth.login(username, () => {
+    auth.login(data.username, () => {
       navigate(from, { replace: true });
     });
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3} sx={{ minWidth: "350px" }}>
-        <Typography variant="h4" textAlign="center">
-          Login
-        </Typography>
-        <FTextField name="username" label="Username" />
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        bgcolor: "#f5f5f5",
+      }}
+    >
+      <Paper
+        elevation={8}
+        sx={{
+          width: 400,
+          p: 5,
+          borderRadius: 3,
+        }}
+      >
+        <Stack spacing={3} alignItems="center">
 
-        <Button type="submit" variant="contained">
-          Login
-        </Button>
-      </Stack>
-    </FormProvider>
+          <Typography variant="h4" fontWeight="bold" >
+            Welcome Back
+          </Typography>
+
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            textAlign="center"
+          >
+            Please enter your username to continue
+          </Typography>
+
+          <FormProvider
+            methods={methods}
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Stack spacing={3} width="100%">
+              <FTextField
+                name="username"
+                label="Username"
+                fullWidth
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                fullWidth
+                sx={{
+                  py: 1.5,
+                  borderRadius: 2,
+                  fontWeight: "bold",
+                }}
+              >
+                Login
+              </Button>
+            </Stack>
+          </FormProvider>
+        </Stack>
+      </Paper>
+    </Box>
   );
 }
 
