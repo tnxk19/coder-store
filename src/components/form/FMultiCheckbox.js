@@ -9,10 +9,11 @@ function FMultiCheckbox({ name, options, ...other }) {
       name={name}
       control={control}
       render={({ field }) => {
+        const value = Array.isArray(field.value) ? field.value : [];
         const onSelected = (option) =>
-          field.value.includes(option)
-            ? field.value.filter((value) => value !== option)
-            : [...field.value, option];
+          value.includes(option)
+            ? value.filter((v) => v !== option)
+            : [...value, option];
 
         return (
           <FormGroup>
@@ -21,7 +22,7 @@ function FMultiCheckbox({ name, options, ...other }) {
                 key={option}
                 control={
                   <Checkbox
-                    checked={field.value.includes(option)}
+                    checked={value.includes(option)}
                     onChange={() => field.onChange(onSelected(option))}
                   />
                 }

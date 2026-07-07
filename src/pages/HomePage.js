@@ -62,7 +62,7 @@ function HomePage() {
             direction={{ xs: "column", sm: "row" }}
             alignItems={{ sm: "center" }}
             justifyContent="space-between"
-            mb={2}
+            mb={4}
           >
             <ProductSearch />
             <ProductSort />

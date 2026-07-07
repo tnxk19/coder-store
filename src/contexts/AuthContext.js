@@ -45,19 +45,11 @@ function AuthProvider({ children }) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const username = window.localStorage.getItem("username");
-
-        if (username) {
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: true, user: { username } },
-          });
-        } else {
-          dispatch({
-            type: INITIALIZE,
-            payload: { isAuthenticated: false, user: null },
-          });
-        }
+        // Do not restore session on app start. Initialize as not authenticated.
+        dispatch({
+          type: INITIALIZE,
+          payload: { isAuthenticated: false, user: null },
+        });
       } catch (err) {
         console.error(err);
         dispatch({
