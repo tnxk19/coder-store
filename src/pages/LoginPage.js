@@ -1,13 +1,11 @@
 import React from "react";
 import {
-  Avatar,
   Box,
   Button,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FormProvider, FTextField } from "../components/form";
 import useAuth from "../hooks/useAuth";
